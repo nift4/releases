@@ -1,22 +1,22 @@
 #!/bin/bash
 
-export GITHUB_USER=""
-export GITHUB_EMAIL=""
+export GITHUB_USER="JarlPenguin"
+export GITHUB_EMAIL="jarlpenguin@gmail.com"
 
-export device=""
+export device="cereus"
 
-export ROM=""
-export ROM_DIR=""
-export ROM_VERSION=""
+export ROM="LineageOS"
+export ROM_DIR="/var/lib/jenkins/los17"
+export ROM_VERSION="17"
 export official="false"
-export local_manifest_url=""
-export manifest_url=""
-export rom_vendor_name=""
-export branch=""
+export local_manifest_url="https://github.com/JarlPenguin/manifests/raw/master/los/17.0/mt6765.xml"
+export manifest_url="https://github.com/LineageOS/android"
+export rom_vendor_name="lineage"
+export branch="lineage-17.0"
 export bacon="bacon"
 
-export jenkins="false"
+export jenkins="true"
 
-export release_repo=""
+export release_repo="JarlPenguin/releases"
 
-export timezone="UTC"
+export timezone="Seoul"
