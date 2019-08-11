@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export outdir="${ROM_DIR}/out/target/product/${device}"
+export outdir="${TWRP_DIR}/out/target/product/${device}"
 BUILD_START=$(date +"%s")
 echo "Build started for ${device}"
 if [ "${jenkins}" == "true" ]; then
@@ -9,40 +9,28 @@ else
     telegram -M "Build started for ${device}"
 fi
 source build/envsetup.sh
-source "${my_dir}/config.sh"
-if [ "${official}" == "true" ]; then
-    export CUSTOM_BUILD_TYPE="OFFICIAL"
-fi
-if [ -z "${buildtype}" ]; then
-    export buildtype="userdebug"
-fi
-lunch "${rom_vendor_name}_${device}-${buildtype}"
-rm "${outdir}"/*2020*.zip
-rm "${outdir}"/*2020*.zip.md5
-if [ "${installclean}" == "true" ]; then
-    mka installclean
-fi
-mka "${bacon}"
+lunch "omni_${device}-eng"
+mka recoveryimage
 BUILD_END=$(date +"%s")
 BUILD_DIFF=$((BUILD_END - BUILD_START))
 
-export finalzip_path=$(ls "${outdir}"/*2020*.zip | tail -n -1)
-export zip_name=$(echo "${finalzip_path}" | sed "s|${outdir}/||")
-export tag=$( echo "${zip_name}-$(date +%H%m)" | sed 's|.zip||')
-if [ -e "${finalzip_path}" ]; then
+export finalimg_path=$(ls "${outdir}/recovery.img" | tail -n -1)
+export img_name=$(echo "${finalimg_path}" | sed "s|${outdir}/||")
+export tag=$( echo "${img_name}" | sed 's|.img||')
+if [ -e "${finalimg_path}" ]; then
     echo "Build completed successfully in $((BUILD_DIFF / 60)) minute(s) and $((BUILD_DIFF % 60)) seconds"
 
     echo "Uploading"
 
-    github-release "${release_repo}" "${tag}" "master" "${ROM} for ${device}
+    github-release "${release_repo}" "${tag}" "master" "TWRP for ${device}
 
-Date: $(env TZ="${timezone}" date)" "${finalzip_path}"
+Date: $(env TZ="${timezone}" date)" "${finalimg_path}"
 
     echo "Uploaded"
 
     telegram -M "Build completed successfully in $((BUILD_DIFF / 60)) minute(s) and $((BUILD_DIFF % 60)) seconds
 
-Download: ["${zip_name}"]("https://github.com/${release_repo}/releases/download/${tag}/${zip_name}")"
+Download: ["${img_name}"]("https://github.com/${release_repo}/releases/download/${tag}/${img_name}")"
 curl --data parse_mode=HTML --data chat_id=$TELEGRAM_CHAT --data sticker=CAADBQADGgEAAixuhBPbSa3YLUZ8DBYE --request POST https://api.telegram.org/bot$TELEGRAM_TOKEN/sendSticker
 
 else
