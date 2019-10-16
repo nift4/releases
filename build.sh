@@ -10,6 +10,8 @@ else
 fi
 source build/envsetup.sh
 lunch "omni_${device}-eng"
+export ALLOW_MISSING_DEPENDENCIES=true
+export LC_ALL=C
 mka recoveryimage
 BUILD_END=$(date +"%s")
 BUILD_DIFF=$((BUILD_END - BUILD_START))
