@@ -20,10 +20,8 @@ if [ ! -d "${TWRP_DIR}" ]; then
 mkdir "${TWRP_DIR}"
 fi
 cd "${TWRP_DIR}"
-if [ -d "${TWRP_DIR}/out" ]; then
 make clean -j$(nproc --all)
 make clobber -j$(nproc --all)
-fi
 
 if [ ! -d "${TWRP_DIR}/.repo" ]; then
 echo "Initializing repository..."
