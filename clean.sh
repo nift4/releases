@@ -20,8 +20,16 @@ if [ ! -d "${TWRP_DIR}" ]; then
 mkdir "${TWRP_DIR}"
 fi
 cd "${TWRP_DIR}"
+
+CLEAN_START=$(date +"%s")
+echo "Cleaning out directory..."
+telegram -M "Cleaning out directory..."
 make clean -j$(nproc --all)
 make clobber -j$(nproc --all)
+CLEAN_END=$(date +"%s")
+CLEAN_DIFF=$((CLEAN_END - CLEAN_START))
+echo "Cleaned out directory in $((CLEAN_DIFF / 60)) minute(s) and $((CLEAN_DIFF % 60)) seconds"
+telegram -N -M "Cleaned out directory in $((CLEAN_DIFF / 60)) minute(s) and $((CLEAN_DIFF % 60)) seconds"
 
 if [ ! -d "${TWRP_DIR}/.repo" ]; then
 echo "Initializing repository..."
