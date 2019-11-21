@@ -19,6 +19,6 @@ export clean=""
 
 export jenkins="true"
 
-export release_repo="JarlPenguin/releases"
+export release_repo="xiaomi-mt6765/releases"
 
 export timezone="Seoul"
