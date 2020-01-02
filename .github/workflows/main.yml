@@ -1,9 +1,9 @@
-name: Upstream
+name: Upstream (TWRP)
 
 on:
   push:
     branches:
-      - master
+      - twrp-master
 
 jobs:
   build:
@@ -20,7 +20,8 @@ jobs:
         git config --global user.email "${GITHUB_EMAIL}"
         git clone https://"${GITHUB_USER}":"${GITHUB_TOKEN}"@github.com/"${GITHUB_USER}"/releases.git
         cd releases
-        function upstream() { for var in montana-pe9plus montana-los15 cactus-los16 cereus-los16 montana-los16 montana-carbon7; do git checkout $var; git rebase master; git push -f; done; git checkout master; }
+        git checkout twrp-master
+        function upstream() { for var in twrp-cactus twrp-cedric twrp-cereus twrp-montana; do git checkout twrp-master; git checkout -b $var; git cherry-pick origin/$var; git push -f -u origin $var; done; git checkout twrp-master; }
         upstream
       env:
         GITHUB_EMAIL: ${{ secrets.GITHUB_EMAIL }}
