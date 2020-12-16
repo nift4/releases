@@ -99,4 +99,8 @@ OR
 
 `release_repo` - your GitHub username + name of the repo to upload the releases (e.g. `JarlPenguin/releases`)
 
+`sf_target` - full ssh destination for SourceForge (e.g. `user@frs.sourceforge.net:/home/frs/project/best-os-project/for-bla/beta/`)
+
+`sf_http_target` - project name + `/files/`+ directories (e.g. `best-os-project/files/for-bla/beta`)
+
 `timezone` - your timezone (default: `UTC`)
