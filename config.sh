@@ -26,7 +26,7 @@ export sf_target="kiam001@frs.sourceforge.net:/home/frs/project/mint-os-project/
 export sf_http_target="mint-os-project/files/$device"
 [ "$device" == "cedric" ] && export sf_target="kiam001@frs.sourceforge.net:/home/frs/project/motog5/MintOS/"
 [ "$device" == "cedric" ] && export sf_http_target="motog5/files/MintOS"
-[ "$WITH_GAPPS" == "true" ] && export sf_target="$sf_targetGApps/"
+[ "$WITH_GAPPS" == "true" ] && export sf_target="${sf_target}GApps/"
 [ "$WITH_GAPPS" == "true" ] && export sf_http_target="$sf_http_target/GApps"
 
 export timezone="Europe/Berlin"
