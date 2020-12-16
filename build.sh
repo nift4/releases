@@ -23,6 +23,10 @@ elif [ "${ccache}" == "true" ] && [ -z "${ccache_size}" ]; then
     echo "Please set the ccache_size variable in your config."
     exit 1
 fi
+if [ -n "${sf_target}" ] && [ -z "${sf_http_target}" ]; then
+    echo "Please set the sf_http_target variable in your config."
+    exit 1
+fi
 lunch "${rom_vendor_name}_${device}-${buildtype}"
 rm "${outdir}"/*2020*.zip
 rm "${outdir}"/*2020*.zip.md5
@@ -47,6 +51,8 @@ if [ -e "${finalzip_path}" ]; then
 
     echo "Uploading"
 
+    [[ -n "${sf_target}" ]] && scp "${finalzip_path}" "${sf_target}"
+
     github-release "${release_repo}" "${tag}" "master" "${ROM} for ${device}
 
 Date: $(env TZ="${timezone}" date)" "${finalzip_path}"
@@ -63,16 +69,19 @@ Date: $(env TZ="${timezone}" date)" "${img_path}"
         fi
     fi
     echo "Uploaded"
+    
+    [[ -n "${sf_target}" ]] && sf_text_result="
+Download ROM via Sourceforge: ["${zip_name}"]("https://sourceforge.net/projects/${sf_http_target}/${zip_name}/download")"
 
     if [ "${upload_recovery}" == "true" ]; then
         telegram -M "Build completed successfully in $((BUILD_DIFF / 60)) minute(s) and $((BUILD_DIFF % 60)) seconds
 
-Download ROM: ["${zip_name}"]("https://github.com/${release_repo}/releases/download/${tag}/${zip_name}")
-Download recovery: ["recovery.img"]("https://github.com/${release_repo}/releases/download/${tag}/recovery.img")"
+Download ROM via GitHub: ["${zip_name}"]("https://github.com/${release_repo}/releases/download/${tag}/${zip_name}")${sf_text_result}
+Download recovery via GitHub: ["recovery.img"]("https://github.com/${release_repo}/releases/download/${tag}/recovery.img")"
     else
         telegram -M "Build completed successfully in $((BUILD_DIFF / 60)) minute(s) and $((BUILD_DIFF % 60)) seconds
 
-Download: ["${zip_name}"]("https://github.com/${release_repo}/releases/download/${tag}/${zip_name}")"
+Download ROM via GitHub: ["${zip_name}"]("https://github.com/${release_repo}/releases/download/${tag}/${zip_name}")${sf_text_result}"
     fi
 curl --data parse_mode=HTML --data chat_id=$TELEGRAM_CHAT --data sticker=CAADBQADGgEAAixuhBPbSa3YLUZ8DBYE --request POST https://api.telegram.org/bot$TELEGRAM_TOKEN/sendSticker
 
