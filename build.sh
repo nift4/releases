@@ -39,7 +39,6 @@ fi
 mka "${bacon}"
 BUILD_END=$(date +"%s")
 BUILD_DIFF=$((BUILD_END - BUILD_START))
-export release_repo=kiam001/releases
 export finalzip_path=$(ls "${outdir}"/*2020*.zip | tail -n -1)
 if [ "${upload_recovery}" == "true" ]; then
     export img_path=$(ls "${outdir}"/recovery.img | tail -n -1)
