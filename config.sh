@@ -22,5 +22,7 @@ export ccache_size="100"
 export jenkins="true"
 
 export release_repo="nift4/releases"
+export sf_target="kiam001@frs.sourceforge.net:/home/frs/project/motog5/MintOS/"
+export sf_http_target="motog5/files/MintOS"
 
 export timezone="GMT+1"
