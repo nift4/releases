@@ -54,6 +54,7 @@ if [ -e "${finalzip_path}" ]; then
 
     github-release "${release_repo}" "${tag}" "master" "${ROM} for ${device}
 
+GApps: ${WITH_GAPPS}
 Date: $(env TZ="${timezone}" date)" "${finalzip_path}"
     if [ "${upload_recovery}" == "true" ]; then
         if [ -e "${img_path}" ]; then
@@ -68,17 +69,18 @@ Date: $(env TZ="${timezone}" date)" "${img_path}"
         fi
     fi
     echo "Uploaded"
+    [ "${WITH_GAPPS}" == "true ] && export hasgapps="GApps "
     
     [[ -n "${sf_target}" ]] && sf_text_result="Download ROM via Sourceforge: ["${zip_name}"]("https://sourceforge.net/projects/${sf_http_target}/${zip_name}/download")"
 
     if [ "${upload_recovery}" == "true" ]; then
-        telegram -M "Build completed successfully in $((BUILD_DIFF / 60)) minute(s) and $((BUILD_DIFF % 60)) seconds
+        telegram -M "${hasgapps}Build completed successfully in $((BUILD_DIFF / 60)) minute(s) and $((BUILD_DIFF % 60)) seconds
 
 Download ROM via GitHub: ["${zip_name}"]("https://github.com/${release_repo}/releases/download/${tag}/${zip_name}")
 Download recovery via GitHub: ["recovery.img"]("https://github.com/${release_repo}/releases/download/${tag}/recovery.img")
 $sf_text_result"
     else
-        telegram -M "Build completed successfully in $((BUILD_DIFF / 60)) minute(s) and $((BUILD_DIFF % 60)) seconds
+        telegram -M "${hasgapps}Build completed successfully in $((BUILD_DIFF / 60)) minute(s) and $((BUILD_DIFF % 60)) seconds
 
 Download ROM via GitHub: ["${zip_name}"]("https://github.com/${release_repo}/releases/download/${tag}/${zip_name}")
 $sf_text_result"
