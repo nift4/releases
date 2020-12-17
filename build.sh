@@ -69,7 +69,7 @@ Date: $(env TZ="${timezone}" date)" "${img_path}"
         fi
     fi
     echo "Uploaded"
-    [ "${WITH_GAPPS}" == "true ] && export hasgapps="GApps "
+    [ "${WITH_GAPPS}" == "true" ] && export hasgapps="GApps "
     
     [[ -n "${sf_target}" ]] && sf_text_result="Download ROM via Sourceforge: ["${zip_name}"]("https://sourceforge.net/projects/${sf_http_target}/${zip_name}/download")"
 
