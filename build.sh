@@ -13,8 +13,8 @@ source "${my_dir}/config.sh"
 if [ "${official}" == "true" ]; then
     export CUSTOM_BUILD_TYPE="OFFICIAL"
 fi
-export CUSTOM_BUILD_TYPE="MINT"
-[ "$WITH_GAPPS" == "true" ] && export CUSTOM_BUILD_TYPE="MINTGAPPS"
+export RELEASE_TYPE="MINT"
+[ "$WITH_GAPPS" == "true" ] && export RELEASE_TYPE="MINTGAPPS"
 if [ -z "${buildtype}" ]; then
     export buildtype="userdebug"
 fi
